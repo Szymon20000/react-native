@@ -16,10 +16,11 @@ import * as React from 'react';
 export function FlatList_onStartReached(): React.Node {
   const [output, setOutput] = React.useState('');
   const exampleProps = {
-    onStartReached: info => setOutput('onStartReached'),
+    onStartReached: (info: {distanceFromStart: number, ...}) =>
+      setOutput('onStartReached'),
     onStartReachedThreshold: 0,
     initialScrollIndex: 5,
-    getItemLayout: (data, index) => ({
+    getItemLayout: (data: any, index: number) => ({
       length: ITEM_HEIGHT,
       offset: ITEM_HEIGHT * index,
       index,

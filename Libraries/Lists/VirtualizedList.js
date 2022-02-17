@@ -1451,16 +1451,11 @@ export default class VirtualizedList extends StateSafePureComponent<
 
     // TODO: T121172172 Look into why we're "defaulting" to a threshold of 2 when oERT is not present
     const startThreshold =
-      onStartReachedThreshold != null
-        ? onStartReachedThreshold * visibleLength
-        : 2;
+      onStartReachedThresholdOrDefault(onStartReachedThreshold) * visibleLength;
     const endThreshold =
-      onEndReachedThreshold != null ? onEndReachedThreshold * visibleLength : 2;
+      onEndReachedThresholdOrDefault(onEndReachedThreshold) * visibleLength;
     const isWithinStartThreshold = distanceFromStart <= startThreshold;
     const isWithinEndThreshold = distanceFromEnd <= endThreshold;
-    const shouldExecuteNewCallback =
-      this._scrollMetrics.contentLength !== this._sentStartForContentLength &&
-      this._scrollMetrics.contentLength !== this._sentEndForContentLength;
 
     // First check if the user just scrolled within the end threshold
     // and call onEndReached only once for a given content length,
@@ -1468,7 +1463,7 @@ export default class VirtualizedList extends StateSafePureComponent<
     if (
       onEndReached &&
       this.state.cellsAroundViewport.last === getItemCount(data) - 1 &&
-      distanceFromEnd <= threshold &&
+      isWithinEndThreshold &&
       this._scrollMetrics.contentLength !== this._sentEndForContentLength
     ) {
       this._sentEndForContentLength = this._scrollMetrics.contentLength;
@@ -1480,9 +1475,9 @@ export default class VirtualizedList extends StateSafePureComponent<
     // and only if onEndReached is not being executed
     else if (
       onStartReached &&
+      this.state.cellsAroundViewport.first === 0 &&
       isWithinStartThreshold &&
-      shouldExecuteNewCallback &&
-      this.state.first === 0 &&
+      this._scrollMetrics.contentLength !== this._sentStartForContentLength &&
       // On initial mount when using initialScrollIndex the offset will be 0 initially
       // and will trigger an unexpected onStartReached. To avoid this we can use
       // timestamp to differentiate between the initial scroll metrics and when we actually
@@ -1640,9 +1635,9 @@ export default class VirtualizedList extends StateSafePureComponent<
         offset - this.__getFrameMetricsApprox(first, this.props).offset;
       hiPri =
         hiPri ||
-        distStart < 0 ||
+        distTop < 0 ||
         (velocity < -2 &&
-          distStart <
+          distTop <
             getScrollingThreshold(onStartReachedThreshold, visibleLength));
     }
     // Mark as high priority if we're close to the end of the last item
