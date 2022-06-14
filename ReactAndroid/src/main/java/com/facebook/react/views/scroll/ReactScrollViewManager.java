@@ -333,7 +333,7 @@ public class ReactScrollViewManager extends ViewGroupManager<ReactScrollView>
   public void setMaintainVisibleContentPosition(ReactScrollView view, ReadableMap value) {
     if (value != null) {
       view.setMaintainVisibleContentPosition(
-        MaintainVisibleContentPositionHelper.Config.fromReadableMap(value));
+        MaintainVisibleScrollPositionHelper.Config.fromReadableMap(value));
     } else {
       view.setMaintainVisibleContentPosition(null);
     }
