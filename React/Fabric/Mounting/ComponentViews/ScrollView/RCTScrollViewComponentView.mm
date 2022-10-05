@@ -429,6 +429,9 @@ static void RCTSendScrollEventForNativeAnimations_DEPRECATED(UIScrollView *scrol
   CGRect oldFrame = self.frame;
   self.frame = CGRectZero;
   self.frame = oldFrame;
+  _contentView = nil;
+  _prevFirstVisibleFrame = CGRectZero;
+  _firstVisibleView = nil;
   [super prepareForRecycle];
 }
 

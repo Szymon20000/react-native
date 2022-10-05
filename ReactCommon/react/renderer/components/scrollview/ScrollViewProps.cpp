@@ -127,6 +127,15 @@ ScrollViewProps::ScrollViewProps(
                     "keyboardDismissMode",
                     sourceProps.keyboardDismissMode,
                     {})),
+      maintainVisibleContentPosition(
+          CoreFeatures::enablePropIteratorSetter
+              ? sourceProps.maintainVisibleContentPosition
+              : convertRawProp(
+                    context,
+                    rawProps,
+                    "maintainVisibleContentPosition",
+                    sourceProps.maintainVisibleContentPosition,
+                    {})),
       maximumZoomScale(
           CoreFeatures::enablePropIteratorSetter
               ? sourceProps.maximumZoomScale

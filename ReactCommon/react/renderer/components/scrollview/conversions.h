@@ -99,6 +99,28 @@ inline void fromRawValue(
   abort();
 }
 
+inline void fromRawValue(
+    const PropsParserContext &context,
+    const RawValue &value,
+    ScrollViewMaintainVisibleContentPosition &result) {
+  auto map = (butter::map<std::string, RawValue>)value;
+
+  auto minIndexForVisible = map.find("minIndexForVisible");
+  if (minIndexForVisible != map.end()) {
+    fromRawValue(
+        context, minIndexForVisible->second, result.minIndexForVisible);
+  }
+  auto autoscrollToTopThreshold = map.find("autoscrollToTopThreshold");
+  if (autoscrollToTopThreshold != map.end()) {
+    fromRawValue(
+        context,
+        autoscrollToTopThreshold->second,
+        result.autoscrollToTopThreshold);
+  }
+}
+
+#if RN_DEBUG_STRING_CONVERTIBLE
+
 inline std::string toString(const ScrollViewSnapToAlignment &value) {
   switch (value) {
     case ScrollViewSnapToAlignment::Start:
@@ -172,8 +194,10 @@ inline std::string toString(
   }
   return "{minIndexForVisible: " + toString(value.value().minIndexForVisible) +
       ", autoscrollToTopThreshold: " +
-      toString(value.value().autoscrollToTopThreshold.value()) + "}";
+      toString(value.value().autoscrollToTopThreshold) + "}";
 }
+
+#endif
 
 } // namespace react
 } // namespace facebook
