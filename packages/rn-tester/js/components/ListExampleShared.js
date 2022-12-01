@@ -34,7 +34,7 @@ export type Item = {
   ...
 };
 
-function genItemData(i: number): Item {
+function genItemData(i): Item {
   const itemHash = Math.abs(hashCode('Item ' + i));
   return {
     title: 'Item ' + i,

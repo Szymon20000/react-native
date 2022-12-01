@@ -103,6 +103,9 @@ class FlatListExample extends React.PureComponent<Props, State> {
     previousLoading: false,
     nextLoading: false,
     isRTL: IS_RTL,
+    maintainVisibleContentPosition: true,
+    previousLoading: false,
+    nextLoading: false,
   };
 
   /* $FlowFixMe[missing-local-annot] The type annotation(s) required by Flow's
@@ -395,7 +398,7 @@ class FlatListExample extends React.PureComponent<Props, State> {
 
   _pressItem = (key: string) => {
     this._listRef?.recordInteraction();
-    const index = Number(key);
+    const index = this.state.data.findIndex(item => item.key === key);
     const itemState = pressItem(this.state.data[index]);
     this.setState(state => ({
       ...state,
