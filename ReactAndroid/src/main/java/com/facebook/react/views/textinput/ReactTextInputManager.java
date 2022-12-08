@@ -726,6 +726,11 @@ public class ReactTextInputManager extends BaseViewManager<ReactEditText, Layout
     view.setLines(numLines);
   }
 
+  @ReactProp(name = ViewProps.MAXIMUM_NUMBER_OF_LINES, defaultInt = 1)
+  public void setMaxNumberOfLines(ReactEditText view, int numLines) {
+    view.setMaxLines(numLines);
+  }
+
   @ReactProp(name = "maxLength")
   public void setMaxLength(ReactEditText view, @Nullable Integer maxLength) {
     InputFilter[] currentFilters = view.getFilters();

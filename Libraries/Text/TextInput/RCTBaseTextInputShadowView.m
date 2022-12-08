@@ -218,7 +218,16 @@
 
 - (CGSize)sizeThatFitsMinimumSize:(CGSize)minimumSize maximumSize:(CGSize)maximumSize
 {
-  NSAttributedString *attributedText = [self measurableAttributedText];
+  NSMutableAttributedString *attributedText = [[self measurableAttributedText] mutableCopy];
+     
+  if (self.exactNumberOfLines) {
+    NSMutableString *newLines = [NSMutableString stringWithCapacity: self.exactNumberOfLines];
+    for (NSUInteger i = 0UL; i < self.exactNumberOfLines; ++i) {
+      [newLines appendString:@"\n"];
+    }
+    [attributedText insertAttributedString:[[NSAttributedString alloc] initWithString:newLines attributes:self.textAttributes.effectiveTextAttributes] atIndex:0];
+    _maximumNumberOfLines = self.exactNumberOfLines;
+  }
 
   if (!_textStorage) {
     _textContainer = [NSTextContainer new];

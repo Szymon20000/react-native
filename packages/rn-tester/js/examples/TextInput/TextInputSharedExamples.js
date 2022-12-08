@@ -329,6 +329,11 @@ class SubmitBehaviorExample extends React.Component<{...}> {
           submitBehavior="newline"
         />
         <TextInput ref={this.ref11} multiline placeholder="multiline default" />
+        <TextInput
+          multiline
+          placeholder="multiline newline"
+          submitBehavior="newline"
+        />
       </View>
     );
   }

@@ -617,6 +617,74 @@ exports.examples = ([
             style={styles.multiline}
             dataDetectorTypes="phoneNumber"
           />
+          <TextInput
+            multiline
+            style={{
+              borderWidth: StyleSheet.hairlineWidth,
+              borderColor: '#0f0f0f',
+              marginBottom: 4,
+            }}
+            placeholder="multiline maximumNumberOfLines 3"
+            maximumNumberOfLines={3}
+            submitBehavior="newline"
+          />
+          <TextInput
+            multiline
+            style={{
+              borderWidth: StyleSheet.hairlineWidth,
+              borderColor: '#0f0f0f',
+              marginBottom: 4,
+            }}
+            placeholder="multiline numberOfLines 3"
+            numberOfLines={3}
+            submitBehavior="newline"
+          />
+          <TextInput
+            multiline
+            style={{
+              borderWidth: StyleSheet.hairlineWidth,
+              borderColor: '#0f0f0f',
+              marginBottom: 4,
+              fontSize: 20,
+            }}
+            placeholder="multiline numberOfLines 3 bigger font size"
+            numberOfLines={3}
+            submitBehavior="newline"
+          />
+          <TextInput
+            multiline
+            style={{
+              borderWidth: StyleSheet.hairlineWidth,
+              borderColor: '#0f0f0f',
+              marginBottom: 4,
+              fontSize: 20,
+            }}
+            placeholder="multiline maximumNumberOfLines bigger font size"
+            maximumNumberOfLines={3}
+            submitBehavior="newline"
+          />
+          <TextInput
+            multiline
+            style={{
+              borderWidth: StyleSheet.hairlineWidth,
+              borderColor: '#0f0f0f',
+              marginBottom: 4,
+              fontSize: 20,
+            }}
+            placeholder="multiline maximumNumberOfLines weird text"
+            maximumNumberOfLines={3}
+            submitBehavior="newline">
+            <Text style={{fontSize: 30, color: 'green'}}>huge</Text>
+            generic generic generic
+            <Text style={{fontSize: 6, color: 'red'}}>
+              small small small small small small
+            </Text>
+            <Text>regular regular</Text>
+            <Text style={{fontSize: 30, color: 'green'}}>
+              huge huge huge huge huge
+            </Text>
+            generic generic generic
+          </TextInput>
         </View>
       );
     },

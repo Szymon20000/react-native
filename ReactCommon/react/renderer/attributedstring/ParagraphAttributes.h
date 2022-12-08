@@ -34,7 +34,12 @@ class ParagraphAttributes : public DebugStringConvertible {
    * Maximum number of lines which paragraph can take.
    * Zero value represents "no limit".
    */
-  int maximumNumberOfLines{};
+  int maximumNumberOfLines{0};
+
+  /*
+   * Exact height expressed in number of lines.
+   */
+  int numberOfLines{0};
 
   /*
    * In case if a text cannot fit given boundaries, defines a place where
@@ -93,6 +98,7 @@ struct hash<facebook::react::ParagraphAttributes> {
     return folly::hash::hash_combine(
         0,
         attributes.maximumNumberOfLines,
+        attributes.numberOfLines,
         attributes.ellipsizeMode,
         attributes.textBreakStrategy,
         attributes.adjustsFontSizeToFit,

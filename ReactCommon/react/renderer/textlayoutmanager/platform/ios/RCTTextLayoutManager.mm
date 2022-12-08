@@ -170,26 +170,43 @@ static NSLineBreakMode RCTNSLineBreakModeFromEllipsizeMode(EllipsizeMode ellipsi
   return paragraphLines;
 }
 
-- (NSTextStorage *)_textStorageAndLayoutManagerWithAttributesString:(NSAttributedString *)attributedString
+- (NSTextStorage *)_textStorageAndLayoutManagerWithAttributesString:(NSAttributedString *)inputAttributedString
                                                 paragraphAttributes:(ParagraphAttributes)paragraphAttributes
                                                                size:(CGSize)size
 {
-  NSTextContainer *textContainer = [[NSTextContainer alloc] initWithSize:size];
 
-  textContainer.lineFragmentPadding = 0.0; // Note, the default value is 5.
-  textContainer.lineBreakMode = paragraphAttributes.maximumNumberOfLines > 0
+    NSMutableAttributedString *attributedString = [ inputAttributedString mutableCopy];
+
+    if (paragraphAttributes.numberOfLines) {
+      paragraphAttributes.maximumNumberOfLines = paragraphAttributes.numberOfLines;
+      NSMutableString *newLines = [NSMutableString stringWithCapacity: paragraphAttributes.numberOfLines];
+      for (NSUInteger i = 0UL; i < paragraphAttributes.numberOfLines; ++i) {
+        // K is added on purpose. New line seems to be not enouth for NTtextContainer
+        [newLines appendString:@"K\n"];
+      }
+        NSDictionary<NSAttributedStringKey, id> * attributesOfFirstCharacter = [inputAttributedString attributesAtIndex:0 effectiveRange:NULL];
+        
+
+      [attributedString insertAttributedString:[[NSAttributedString alloc] initWithString:newLines attributes:attributesOfFirstCharacter] atIndex:0];
+    }
+    
+  NSTextContainer *textContainer = [NSTextContainer new];
+    
+    NSLayoutManager *layoutManager = [NSLayoutManager new];
+    layoutManager.usesFontLeading = NO;
+    [layoutManager addTextContainer:textContainer];
+    NSTextStorage *textStorage = [NSTextStorage new];
+    [textStorage addLayoutManager:layoutManager];
+
+    textContainer.lineFragmentPadding = 0.0; // Note, the default value is 5.
+    textContainer.lineBreakMode = paragraphAttributes.maximumNumberOfLines > 0 && false
       ? RCTNSLineBreakModeFromEllipsizeMode(paragraphAttributes.ellipsizeMode)
-      : NSLineBreakByClipping;
+    : NSLineBreakByClipping;
+    textContainer.size = size;
   textContainer.maximumNumberOfLines = paragraphAttributes.maximumNumberOfLines;
 
-  NSLayoutManager *layoutManager = [NSLayoutManager new];
-  layoutManager.usesFontLeading = NO;
-  [layoutManager addTextContainer:textContainer];
-
-  NSTextStorage *textStorage = [[NSTextStorage alloc] initWithAttributedString:attributedString];
-
-  [textStorage addLayoutManager:layoutManager];
-
+  [textStorage replaceCharactersInRange:(NSRange){0, textStorage.length} withAttributedString:attributedString];
+    
   if (paragraphAttributes.adjustsFontSizeToFit) {
     CGFloat minimumFontSize = !isnan(paragraphAttributes.minimumFontSize) ? paragraphAttributes.minimumFontSize : 4.0;
     CGFloat maximumFontSize = !isnan(paragraphAttributes.maximumFontSize) ? paragraphAttributes.maximumFontSize : 96.0;

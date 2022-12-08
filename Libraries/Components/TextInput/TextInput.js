@@ -522,13 +522,6 @@ type AndroidProps = $ReadOnly<{|
   inlineImagePadding?: ?number,
 
   /**
-   * Sets the number of lines for a `TextInput`. Use it with multiline set to
-   * `true` to be able to fill the lines.
-   * @platform android
-   */
-  numberOfLines?: ?number,
-
-  /**
    * Sets the return key to the label. Use it instead of `returnKeyType`.
    * @platform android
    */
@@ -709,6 +702,17 @@ export type Props = $ReadOnly<{|
    * The default value is `false`.
    */
   multiline?: ?boolean,
+
+  /**
+   * Sets the number of lines for a `TextInput`. Use it with multiline set to
+   * `true` to be able to fill the lines.
+   */
+  numberOfLines?: ?number,
+
+  /**
+   * Sets the maximum number of lines the TextInput can have.
+   */
+  maximumNumberOfLines?: ?number,
 
   /**
    * Callback that is called when the text input is blurred.

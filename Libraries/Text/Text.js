@@ -219,6 +219,15 @@ const Text: React.AbstractComponent<
 
   const _hasOnPressOrOnLongPress =
     props.onPress != null || props.onLongPress != null;
+    
+  let numberOfLinesKey = 'numberOfLines';
+  if (Platform.OS === 'ios' && global.nativeFabricUIManager) {
+    numberOfLinesKey = 'maximumNumberOfLines';
+  }
+  restProps.numberOfLines = undefined;
+  const numberOfLinesProps = {
+    [numberOfLinesKey]: numberOfLines,
+  };
 
   return hasTextAncestor ? (
     <NativeVirtualText
@@ -233,7 +242,7 @@ const Text: React.AbstractComponent<
       isPressable={isPressable}
       selectable={_selectable}
       nativeID={id ?? nativeID}
-      numberOfLines={numberOfLines}
+      {...numberOfLinesProps}
       selectionColor={selectionColor}
       style={flattenedStyle}
       ref={forwardedRef}
@@ -259,7 +268,7 @@ const Text: React.AbstractComponent<
         ellipsizeMode={ellipsizeMode ?? 'tail'}
         isHighlighted={isHighlighted}
         nativeID={id ?? nativeID}
-        numberOfLines={numberOfLines}
+        {...numberOfLinesProps}
         selectionColor={selectionColor}
         style={flattenedStyle}
         ref={forwardedRef}
