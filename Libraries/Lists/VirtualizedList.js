@@ -319,7 +319,6 @@ export default class VirtualizedList extends StateSafePureComponent<
   scrollToItem(params: {
     animated?: ?boolean,
     item: Item,
-    viewOffset?: number,
     viewPosition?: number,
     ...
   }) {
@@ -586,8 +585,6 @@ export default class VirtualizedList extends StateSafePureComponent<
           itemCount,
           scrollIndex + initialNumToRenderOrDefault(props.initialNumToRender),
         ) - 1,
-      firstItemKey: getItemKey(this.props, 0),
-      maintainVisibleContentPositionAdjustment: null,
     };
   }
 
@@ -1498,17 +1495,17 @@ export default class VirtualizedList extends StateSafePureComponent<
       return;
     }
     const {contentLength, visibleLength, offset} = this._scrollMetrics;
-
     let distanceFromStart = offset;
     let distanceFromEnd = contentLength - visibleLength - offset;
-    // Especially when oERT is zero it's necessary to 'floor' very small distanceFromEnd values to be 0
+
+    // Especially when oERT is zero it's necessary to 'floor' very small distance values to be 0
     // since debouncing causes us to not fire this event for every single "pixel" we scroll and can thus
-    // be at the "end" of the list with a distanceFromEnd approximating 0 but not quite there.
-    if (distanceFromEnd < ON_EDGE_REACHED_EPSILON) {
-      distanceFromEnd = 0;
-    }
+    // be at the edge of the list with a distance approximating 0 but not quite there.
     if (distanceFromStart < ON_EDGE_REACHED_EPSILON) {
       distanceFromStart = 0;
+    }
+    if (distanceFromEnd < ON_EDGE_REACHED_EPSILON) {
+      distanceFromEnd = 0;
     }
 
     // TODO: T121172172 Look into why we're "defaulting" to a threshold of 2 when oERT is not present
