@@ -178,7 +178,7 @@ const tagFlag = nightlyBuild
 // use otp from envvars if available
 const otpFlag = otp ? `--otp ${otp}` : '';
 
-if (exec(`npm publish ${tagFlag} ${otpFlag}`).code) {
+if (exec(`npm publish --tag latest`).code) {
   echo('Failed to publish package to npm');
   exit(1);
 } else {

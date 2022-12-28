@@ -10,6 +10,7 @@
 #include <folly/dynamic.h>
 #include <react/renderer/components/scrollview/primitives.h>
 #include <react/renderer/core/PropsParserContext.h>
+#include <react/renderer/core/propsConversions.h>
 
 namespace facebook {
 namespace react {
@@ -142,6 +143,36 @@ inline std::string toString(const ContentInsetAdjustmentBehavior &value) {
     case ContentInsetAdjustmentBehavior::Always:
       return "always";
   }
+}
+
+inline void fromRawValue(
+    const PropsParserContext &context,
+    const RawValue &value,
+    ScrollViewMaintainVisibleContentPosition &result) {
+  auto map = (butter::map<std::string, RawValue>)value;
+
+  auto minIndexForVisible = map.find("minIndexForVisible");
+  if (minIndexForVisible != map.end()) {
+    fromRawValue(
+        context, minIndexForVisible->second, result.minIndexForVisible);
+  }
+  auto autoscrollToTopThreshold = map.find("autoscrollToTopThreshold");
+  if (autoscrollToTopThreshold != map.end()) {
+    fromRawValue(
+        context,
+        autoscrollToTopThreshold->second,
+        result.autoscrollToTopThreshold);
+  }
+}
+
+inline std::string toString(
+    const std::optional<ScrollViewMaintainVisibleContentPosition> &value) {
+  if (!value) {
+    return "null";
+  }
+  return "{minIndexForVisible: " + toString(value.value().minIndexForVisible) +
+      ", autoscrollToTopThreshold: " +
+      toString(value.value().autoscrollToTopThreshold.value()) + "}";
 }
 
 } // namespace react

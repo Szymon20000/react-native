@@ -677,3 +677,5 @@ publishing {
         }
     }
 }
+
+apply plugin: "org.jetbrains.kotlin.android"

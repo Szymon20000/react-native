@@ -336,6 +336,7 @@ void ScrollViewProps::setProp(
     RAW_SET_PROP_SWITCH_CASE_BASIC(directionalLockEnabled, {});
     RAW_SET_PROP_SWITCH_CASE_BASIC(indicatorStyle, {});
     RAW_SET_PROP_SWITCH_CASE_BASIC(keyboardDismissMode, {});
+    RAW_SET_PROP_SWITCH_CASE_BASIC(maintainVisibleContentPosition, {});
     RAW_SET_PROP_SWITCH_CASE_BASIC(maximumZoomScale, (Float)1.0);
     RAW_SET_PROP_SWITCH_CASE_BASIC(minimumZoomScale, (Float)1.0);
     RAW_SET_PROP_SWITCH_CASE_BASIC(scrollEnabled, true);
@@ -413,6 +414,10 @@ SharedDebugStringConvertibleList ScrollViewProps::getDebugProps() const {
               "keyboardDismissMode",
               keyboardDismissMode,
               defaultScrollViewProps.keyboardDismissMode),
+          debugStringConvertibleItem(
+              "maintainVisibleContentPosition",
+              maintainVisibleContentPosition,
+              defaultScrollViewProps.maintainVisibleContentPosition),
           debugStringConvertibleItem(
               "maximumZoomScale",
               maximumZoomScale,
